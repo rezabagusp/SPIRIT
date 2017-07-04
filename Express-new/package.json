@@ -1,0 +1,29 @@
+{
+  "name": "spirit-2018_backend",
+  "version": "1.0.0",
+  "description": "Backend dari website spirit 2018",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "author": "Spirit_PSBO_TEAM",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "cors": "^2.8.3",
+    "crypto": "0.0.3",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "http-server": "^0.9.0",
+    "jsonwebtoken": "^7.4.0",
+    "morgan": "^1.8.1",
+    "multer": "^1.3.0",
+    "mysql": "^2.13.0",
+    "nodemailer": "^4.0.1",
+    "pg": "^6.4.0",
+    "pg-hstore": "^2.3.2",
+    "randomstring": "^1.1.5",
+    "sequelize": "^3.30.4"
+  }
+}

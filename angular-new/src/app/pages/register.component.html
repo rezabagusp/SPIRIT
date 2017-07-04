@@ -1,0 +1,47 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6 col-md-12">
+      <div class="card card-accent-success">
+        <div class="card-header">
+          <b>Kontingen Terverifikasi</b>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-12">
+            <table datatable class="row-border hover" [dtOptions]="dtOptions"  [dtTrigger]="dtTrigger">
+              <thead>
+                <tr>
+                  <th>Nama</th>
+                  <th>NIM</th>
+                  <th>Departemen</th>
+                  <th>Lomba</th>
+                  <th>Foto</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let participant of participants">
+                  <td>{{participant.mahasiswa.nama_mahasiswa}}</td>
+                  <td>{{participant.mahasiswa.NIM_mahasiswa}}</td>
+                  <td>{{participant.mahasiswa.departement.nama_departement}}</td>
+                  <td>{{participant.lomba.nama_lomba}}</td>
+                  <td>
+                    <a href="javascript:void(0)" class="thumbnail">
+                    <img class="img-thumbnail" src = {{participant.album[0].src}} width="104" height="36" (click)="openPhoto(participant.album,0 )">
+                  </a>
+                    <a href="javascript:void(0)" class="thumbnail">
+                    <img class="img-thumbnail" src = {{participant.album[1].src}} width="104" height="36" (click)="openPhoto(participant.album,1)">
+                  </a>
+                  </td>
+                  <td><span
+                    [ngClass]=" {'badge badge-success': participant.status_peserta !== null}">Verified</span></td>
+                  <td><button type="button" class="btn btn-sm btn-danger" (click)="unverifikasi(participant.id)">Verifikasi Ulang</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div><!--/.col-->
+  </div>
+</div>
