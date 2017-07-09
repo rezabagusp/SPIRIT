@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'toastr-ng2';
 import { Kontingen } from '../kontingen.interface';
@@ -9,13 +9,15 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 //Lighbox library
 import { Lightbox } from 'angular2-lightbox';
+//modals
+
 
 @Component({
   templateUrl: 'sepakbola.component.html',
   styleUrls: ['./sepakbola.component.css'],
   providers: [PenanggungjawabService]
 })
-export class SepakBolaComponent  {
+export class SepakBolaComponent implements OnInit  {
 
   public myForm: FormGroup;
   public isFieldDisabled: boolean[]= [];
@@ -23,7 +25,14 @@ export class SepakBolaComponent  {
   filesToUpload: Array<File>;
   listPeserta;
   idOlahraga;
+  checkingNim:boolean;
 
+  //array form
+  nama;
+  nim;
+  noHp;
+  public albumReja=[];
+  coba="/src/img/images/coba0.jpg"
   public fileValid : boolean = false;
   private submitted: boolean = false;
   private uploadProgress: number = 0;
@@ -34,8 +43,9 @@ export class SepakBolaComponent  {
     private toastrService: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _lightbox: Lightbox) { 
-    this.filesToUpload = [];
+    private _lightbox: Lightbox,
+    private cd: ChangeDetectorRef
+    ) { 
     this.listPeserta=[];
     this.penanggungjawabservice.progress$.subscribe(status => {
       this.uploadProgress = status;
@@ -53,16 +63,24 @@ export class SepakBolaComponent  {
   ngOnInit(){
     this.initPeserta();
     this.initForm();
-
   }
+
+
   initForm(){
+    this.checkingNim=null;
+    this.filesToUpload = [];
+    this.nama='';
+    this.nim='G64140023';
+    this.noHp='';
+
+
     this.myForm = this._fb.group({
-      nama: ['', Validators.required],
-      nim: ['',[Validators.required, Validators.minLength(9)]],
-      noHp: ['', [Validators.required,Validators.minLength(10)]]
+      nama: [this.nama,[Validators.required]],
+      nim: [this.nim,[Validators.required, Validators.minLength(9)]],
+      noHp: [this.noHp, [Validators.required,Validators.minLength(10)]]
     })
-    this.filesToUpload=[];
-    console.log('restore lagi', this.filesToUpload )
+
+    console.log('restore lagi file upload', this.filesToUpload )
   }
   
 
@@ -80,8 +98,44 @@ export class SepakBolaComponent  {
      }
 
     );
+      this.albumReja=[{
+        "src":"",
+        "caption":"photo"
+      },
+      {
+        "src":"",
+        "caption":"photo KTM"
+      }]
   }
   
+  checkNim(nim){
+    console.log("nim yang masu di chek:", nim);
+    this.checkingNim=this.penanggungjawabservice.checkNim(nim)
+
+    console.log("status cheknim", this.checkingNim)
+    if(this.checkingNim){
+      this.myForm.get('noHp').setValue('081284928819');
+      this.myForm.get('nama').setValue('Reza Bagus Permana');
+
+      this.myForm.value.noHp = '081284928819';
+      this.myForm.value.nama = 'Reza Bagus Permana';
+      this.myForm.get('nama').disable();
+      //this.myForm.get('nim').disable();
+      this.myForm.get('noHp').disable();  
+
+      this.albumReja[0].src="src/img/images/coba0.jpg";
+      this.albumReja[1].src="src/img/images/coba1.jpg";
+
+    }
+    //masuk kondisi salah
+    else if(!this.checkingNim){
+      this.myForm.get('nama').disable();  
+
+    }
+    console.log("isi form", this.myForm.value);
+    console.log("isi album", this.albumReja);
+
+  }
 
   //when choose file put to array
   fileChangeEvent(fileInput: any){
@@ -97,6 +151,7 @@ export class SepakBolaComponent  {
   }
 
   submit(model: Kontingen) {
+
     this.submitted = true;//for activate progress bar 
     let token = this.penanggungjawabservice.token;
     console.log('ini yangg mau di KIRIM DATANYA', this.myForm.value.nama);
@@ -139,7 +194,7 @@ export class SepakBolaComponent  {
   }
 
 
-  delete(nim){
+  delete(id_peserta){
     console.log('masuk delete');
     swal({
     title: 'Are you sure?',
@@ -194,12 +249,9 @@ export class SepakBolaComponent  {
 
   }
 
-  pot=[]
   openHAHA(pot,index: number): void {
     console.log("masuk open ")
-    console.log(pot)
-
-    console.log(this.pot);  
+    console.log(pot)  
         
     // open lightbox
     this._lightbox.open(pot, index);

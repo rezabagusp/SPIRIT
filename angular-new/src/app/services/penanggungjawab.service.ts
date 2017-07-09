@@ -29,6 +29,17 @@ export class PenanggungjawabService {
   	console.log('Id department ',  this.idDepartemen);
   }
 
+  checkNim(nim){
+  	console.log('check nim : ', nim);
+	let header= new Headers();
+    header.append('Content-type', 'application/json' );
+		header.append('token', this.token );//put token to request API
+
+	if(nim ==="G64140023")
+    	return true;
+    else return false;
+  }
+
   getAllPeserta(idOlahraga:number){
   	console.log('idDep ', this.idDepartemen);
 	let header= new Headers();

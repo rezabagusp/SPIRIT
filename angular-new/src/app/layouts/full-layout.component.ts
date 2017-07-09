@@ -38,7 +38,8 @@ export class FullLayoutComponent implements OnInit {
       this.role = "panitia";
     console.log('routeactivated parent, login as')
     console.log(this.role)
-    console.log(user);
+    console.log("isi jwt helper", user);
+    console.log("expired ?", this.jwtHelper.isTokenExpired(localStorage.getItem('token')));
 
   }
 

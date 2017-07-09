@@ -29,10 +29,14 @@ export class PenanggungJawabGuard implements CanActivateChild {
         console.log("check child route as : ");
         console.log(this.roles)
         
-        if(this.roles=="penanggungjawab")// 0 berarti roles Pj
+        if(localStorage.getItem('token') && !this.jwtHelper.isTokenExpired(localStorage.getItem('token')) && this.roles=="penanggungjawab")// 0 berarti roles Pj
             return true;
 
-        return false;
+        else{             
+            this.router.navigate(['/login']);
+            this.toastrService.warning('Session anda telah habis');
+            return false;
+        }
 
     }
 }

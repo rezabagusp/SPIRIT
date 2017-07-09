@@ -27,12 +27,15 @@ export class PanitiaGuard implements CanActivateChild {
     canActivateChild(){
         console.log("check child route");
         
-        if(this.roles=="panitia")// 1 berarti roles Panitia
+        if( localStorage.getItem('token') && !this.jwtHelper.isTokenExpired(localStorage.getItem('token')) && this.roles=="panitia"){// 1 berarti roles Panitia
             return true;
-
-        this.toastrService.warning('Silahkan login terlebih sebagai panitia dahulu!', 'Warning!');
-
-        return false;
+        }
+        else{             
+            this.router.navigate(['/login']);
+            this.toastrService.warning('Session anda telah habis');
+            return false;
+        }
+        
 
     }
 }

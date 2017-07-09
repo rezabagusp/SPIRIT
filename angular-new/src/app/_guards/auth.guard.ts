@@ -18,11 +18,12 @@ export class AuthGuard implements CanActivate {
                 private route: ActivatedRoute ) {
         this.token = localStorage.getItem('token');
         var user = this.jwtHelper.decodeToken(this.token)
+
         
     }
 
     canActivate() {
-        if (localStorage.getItem('token')) {
+        if ( localStorage.getItem('token') && !this.jwtHelper.isTokenExpired(localStorage.getItem('token')) ) {
             // logged in so return true
         	console.log("kamu udah login, dari auth guard");
             return true;
