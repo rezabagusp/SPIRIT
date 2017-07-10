@@ -24,11 +24,15 @@
                   <td>{{participant.mahasiswa.nama_mahasiswa}}</td>
                   <td>{{participant.mahasiswa.NIM_mahasiswa}}</td>
                   <td>{{participant.mahasiswa.nama_department}}</td>
+<<<<<<< HEAD
                   <td>
                      <div *ngFor="let lomba of participant.lombas">
                       {{lomba}}
                     </div>
                   </td>
+=======
+                  <td>{{participant.lomba.nama_lomba}}</td>
+>>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
                   <td>
                     <a href="javascript:void(0)" class="thumbnail">
                     <img class="img-thumbnail" src = {{participant.album[0].src}} width="104" height="36" (click)="openPhoto(participant.album,0 )">
@@ -39,7 +43,11 @@
                   </td>
                   <td><span
                     [ngClass]=" {'badge badge-warning': participant.status_peserta === 1}">Pending</span></td>
+<<<<<<< HEAD
                   <td><button type="button" class="btn btn-sm btn-primary" (click)="verifikasi(participant.mahasiswa.id)">Verifikasi</button></td>
+=======
+                  <td><button type="button" class="btn btn-sm btn-primary" (click)="verifikasi(participant.id_peserta)">Verifikasi</button></td>
+>>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
                 </tr>
               </tbody>
             </table>

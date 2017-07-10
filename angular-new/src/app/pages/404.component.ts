@@ -47,6 +47,7 @@ export class P404Component {
     this.panitiaService.getAllPeserta()
     .subscribe(
       data=> {
+<<<<<<< HEAD
 
          // pengolahan id yang sama
         let tempId = data[0].mahasiswa.id
@@ -78,6 +79,9 @@ export class P404Component {
         // end of pengolahan id yang sama
 
         // this.participants = data;
+=======
+        this.participants = data;
+>>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
         console.log('ini list peserta ', this.participants);
         console.log('ini panjangnyaa', this.participants.toString().length);
         this.dtTrigger.next();
@@ -103,12 +107,20 @@ export class P404Component {
     let result;
     swal({
       title: 'Are you sure?',
+<<<<<<< HEAD
       text: "This data will be updated to verified status!",
+=======
+      text: "You won't be able to revert this!",
+>>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
+<<<<<<< HEAD
       confirmButtonText: 'Yes, verifiy it!'
+=======
+      confirmButtonText: 'Yes, delete it!'
+>>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
     }).then( () => {
       this.panitiaService.verifikasiPeserta(id)
       .subscribe(
@@ -121,7 +133,10 @@ export class P404Component {
               'Your file has been deleted.',
               'success'
             )
+<<<<<<< HEAD
             this.participants = [];
+=======
+>>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
             this.ngOnInit();
           }
           //location.reload();
