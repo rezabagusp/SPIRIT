@@ -46,6 +46,11 @@ import { PanitiaGuard } from './_guards/panitia.guard';
 
 //lightbox 
 import { LightboxModule } from 'angular2-lightbox';
+// modals
+
+// import { ModalComponent } from './_directives/index';
+// import { ModalService } from './services/modal.service';
+
 
 @NgModule({
   imports: [
@@ -71,8 +76,6 @@ import { LightboxModule } from 'angular2-lightbox';
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
-    
-
 
     LoginComponent,
     NeedHelpComponent,
@@ -84,7 +87,8 @@ import { LightboxModule } from 'angular2-lightbox';
       
       AuthGuard ,
       PenanggungJawabGuard,
-      PanitiaGuard
+      PanitiaGuard,      
+      // ModalService
     ],
   bootstrap: [ AppComponent ]
 })

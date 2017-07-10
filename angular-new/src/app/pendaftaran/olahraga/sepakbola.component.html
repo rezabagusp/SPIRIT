@@ -15,7 +15,7 @@
             </div> -->
         </div>
       </div>
-<!--   <button type="button" (click)="test()" class="btn btn-primary">test jwt</button>  -->
+<!--   <button type="button" (click)="cek()" class="btn btn-primary">test jwt</button> --> 
       <form [formGroup]="myForm" novalidate >
         <div class="panel panel-default">
           <div class="animated fadeIn">
@@ -23,29 +23,24 @@
               <div class="card-header">
                 <div class="row">
                   <div class="col-md-12">
-                    <b>Kontingen</b> <a href="javascript:void(0)" ><i class="fa fa-refresh pull-right" aria-hidden="true" (click)="ngOnInit()"></i></a>
+                    <b>Kontingen</b> <a href="javascript:void(0)" ><i class="fa fa-refresh pull-right" aria-hidden="true" (click)="refreshForm()"></i></a>
 
                   </div>
                 </div>
               </div>
-              <!-- if mahasiswa sudah terdaftar -->
+
               <div class="card-block">
                 <!-- <app-kontingen [group]="myForm.controls.peserta.controls[i]"></app-kontingen> -->
                 <span *ngIf="checkingNim" class="badge badge-success">Data Mahasiswa Sudah Tersedia</span>                 
                 <div [hidden]= "checkingNim==null" class="form-group col-xs-6">
                   <label>Nama</label>
                   <input type="text" class="form-control" formControlName="nama">
-                  <small *ngIf="!checkingNim" [hidden]="myForm.controls.nama.valid" class="text-danger">
-                    Nama perlu diisi
-                  </small>
+
                 </div>
 
                 <div class="form-group col-xs-6">
                   <label>NIM</label>
                   <input type="text" class="form-control" formControlName="nim" >
-                  <small *ngIf="!checkingNim"  [hidden]="myForm.controls.nim.valid" class="text-danger">
-                    NIM perlu diisi
-                  </small>
                 </div>
                   
                 <div [hidden]= "checkingNim==null" class="form-group col-xs-6">
@@ -67,7 +62,7 @@
                       </a>   
 
                     </div>                      
-                    <input *ngIf="!checkingNim"  type="file" (change)="fileChangeEvent($event)"  class="form-control" name="photo" accept="image/x-png,image/jpeg" multiple />
+                    <input *ngIf="!checkingNim"  type="file" (change)="fileChangeEvent($event,1)" class="form-control" name="photo" accept="image/x-png,image/jpeg" multiple />
                     <small *ngIf="!checkingNim" [hidden]="fileValid" class="text-danger">
                         *Maximimum 3 MB &nbsp;
                         *Jpeg, jpg atau png. &nbsp;
@@ -82,14 +77,13 @@
                     </div>
                 </div><br>
                 <div  class="margin-20">
-                  <button *ngIf="!checkingNim" [hidden]="checkingNim==null" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && !fileValid" (click)="submit(); $event.preventDefault()">Submit yang</button>
+                  <button *ngIf="!checkingNim" [hidden]="checkingNim==null" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && !fileValid" (click)="submit(); $event.preventDefault()">Submit wf</button>
 
                   <!-- yang ga perlu file valid -->
-                  <button *ngIf="checkingNim" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && fileValid" (click)="submit(); $event.preventDefault()">Submit yang 2</button>                                    
+                  <button *ngIf="checkingNim" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && fileValid" (click)="submit(); $event.preventDefault()">Submit</button>                                    
                 </div>         
 
               </div>
-              <!-- end of if mahasiswa sudah terdaftar -->
             </div>
           </div>
         </div>
@@ -139,10 +133,11 @@
                 </td>
                 <td>
 <!--                   <span class="badge badge-success">Verified</span> -->
-                  <span><a href="javascript:void(0)" (click)="delete(list.id)" ><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span><a href="javascript:void(0)" (click)="deletePeserta(list.id)" ><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                  <span><a href="javascript:void(0)" (click)="myModal.show()" ><i class="fa fa-pencil-square-o" aria-hidden="true"> Update</i></a> </span>
+                  <span><a href="javascript:void(0)" (click)="openModal()" ><i class="fa fa-pencil-square-o" aria-hidden="true"> Update</i></a> </span>
                 </td>
+                <button id="openModalButton" data-toggle="modal" data-target="#myModal">Open Modal</button>
               </tr>
             </tbody>
 
@@ -158,22 +153,77 @@
 </div>
 
     <!-- Modal -->
-  <div bsModal #myModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Modal title</h4>
+          <h4 class="modal-title">Update Informasi Mahasiswa</h4>
           <button type="button" class="close" (click)="myModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <p>One fine body&hellip;</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="myModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        <form [formGroup]="myFormUpdate" novalidate>
+          <div class="modal-body">
+            <div class="form-group col-xs-6">
+              <label>Nama</label>
+              <input type="text" class="form-control" formControlName="namaUpdate" >
+            </div>
+            
+            <div class="form-group col-xs-6">
+              <label>NIM</label>
+              <input type="text" class="form-control" formControlName="nimUpdate" >
+            </div>
+            
+            <div class="form-group col-xs-6">
+              <label>No Hp</label>
+              <input type="text" class="form-control" formControlName="noHpUpdate" pattern='^\+?\d{0,13}' >
+              <small [hidden]="myFormUpdate.controls.noHpUpdate.valid" class="text-danger">
+                No hp harus valid 
+              </small>
+            </div>
+
+            <div class="form-group col-xs-6">
+              <label>Photo & photoKTM</label>        
+              <input type="file" class="form-control" name="photo" accept="image/x-png,image/jpeg" multiple (change)="fileChangeEvent($event, 2)" />
+              <small [hidden]="fileValidUpdate" class="text-danger">
+                  *Maximimum 3 MB &nbsp;
+                  *Jpeg, jpg atau png. &nbsp;
+                  *2 File yang harus diupload
+              </small>
+            </div>
+                                    
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="myModal.hide()">Close</button>
+            <button type="button" class="btn btn-primary" (click)="updatePeserta()">Save changes</button>
+          </div>
+        </form>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->  
+
+<!--   <button (click)="openModal('custom-modal-1')">Open Modal 1</button>
+  <button (click)="openModal('custom-modal-2')">Open Modal 2</button>
+
+  <modal id="custom-modal-1">
+    <div class="modal">
+        <div class="modal-body">
+            <h1>A Custom Modal!</h1>
+            <p>
+                Home page text: Test;
+            </p>
+            <button (click)="closeModal('custom-modal-1');">Close</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal>
+
+<modal id="custom-modal-2">
+    <div class="modal">
+        <div class="modal-body">
+            <h1 style="height:1000px">A Tall Custom Modal!</h1>
+            <button (click)="closeModal('custom-modal-2');">Close</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</modal> -->

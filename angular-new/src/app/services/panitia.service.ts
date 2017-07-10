@@ -18,7 +18,6 @@ export class PanitiaService {
 
   //atribut for file upload
   filesToUpload: Array<File>;
-  idDepartemen;
   idLomba;
   //path request API
   public pathGetPeserta="http://localhost:8000/panitia/daftarPesertaBaru/";
@@ -37,8 +36,7 @@ export class PanitiaService {
   constructor(private http:Http) {
     this.token = localStorage.getItem('token');
     var user = this.jwtHelper.decodeToken(this.token);
-    this.idDepartemen = user.fk_departementId;
-    console.log('Id department ',  this.idDepartemen);
+ 
   }
 
   public getAllPesertaTingkatAkhir(){
@@ -57,7 +55,6 @@ export class PanitiaService {
   }
 
   public getAllPeserta(){
-    console.log('idDep ', this.idDepartemen);
 
     let header= new Headers();
     header.append('Content-type', 'application/json' );
@@ -74,8 +71,6 @@ export class PanitiaService {
 
 
   public getAllPesertaVerified(){
-    console.log('idDep ', this.idDepartemen);
-
     let header= new Headers();
     header.append('Content-type', 'application/json' );
     header.append('token', this.token );//put token to request API

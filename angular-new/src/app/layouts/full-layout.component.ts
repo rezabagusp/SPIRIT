@@ -24,6 +24,7 @@ export class FullLayoutComponent implements OnInit {
   public disabled = false;
   public status: {isopen: boolean} = {isopen: false};
   public role;
+  public username;
 
   constructor(private http: Http,
               private authenticationService: AuthenticationService,
@@ -32,10 +33,14 @@ export class FullLayoutComponent implements OnInit {
               private toastrService: ToastrService
               ){
     var user = this.jwtHelper.decodeToken(localStorage.getItem('token'))
-    if(user.status_pj)
+    if(user.status_pj){
       this.role = "penanggungjawab";
-    else if(user.status_panitia)
+      this.username = user.username_pj
+    }
+    else if(user.status_panitia){
       this.role = "panitia";
+      this.username = user.username_panitia 
+    }
     console.log('routeactivated parent, login as')
     console.log(this.role)
     console.log("isi jwt helper", user);

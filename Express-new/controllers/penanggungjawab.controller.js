@@ -7,7 +7,7 @@ var express = require('express'),
 	Peserta = sequelize.import(__dirname + '/../models/peserta.model'),
 	storage = multer.diskStorage({
 	    destination: function (req, file, callback) {
-	        callback(null, './angular-new/src/img/public/images');
+	        callback(null, 'public/images');
 	    },
 	    filename: function (req, file, callback) {
 	    let ext = path.extname(file.originalname);
@@ -19,7 +19,7 @@ var express = require('express'),
 			var belumTerdaftar = false;
 			var jumlahLomba = 5;
 			var ext = path.extname(file.originalname);
-			if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+			if(ext !== '.png' && ext !== '.PNG' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
 				return callback(new Error('Only images are allowed'));
 			}
 			callback(null, true);
@@ -28,10 +28,39 @@ var express = require('express'),
 Peserta.belongsTo(Mhs, {foreignKey:'fk_mahasiswaId'});
 
 class PJ {
+	checkmahasiswa(data, res) {
+		Peserta.findOne({
+			include: {
+				model: Mhs,
+				where: {
+					NIM_mahasiswa: data.body.NIM,
+					fk_departementId: data.params.iddept
+				},
+				attributes: ['nama_mahasiswa', 'NIM_mahasiswa']
+			},
+			attributes: ['photodiri_peserta', 'photoKTM_peserta', 'noHP_peserta']
+		}).then((hasil) => {
+			hasil.dataValues.status = true
+			res.json(hasil)
+		}).catch(() => {
+			Mhs.findOne({
+				where: {
+					NIM_mahasiswa: data.body.NIM,
+					fk_departementId: data.params.iddept
+				},
+				attributes: ['nama_mahasiswa', 'NIM_mahasiswa']
+			}).then((mahasiswa) => {
+				mahasiswa.dataValues.status = false
+				res.json(mahasiswa)
+			}).catch(() => {
+				res.json({status:null})
+			})
+		})
+	}
 	/*mendaftarkan peserta*/
 	daftarpeserta(data, res) {
-		console.log(data.body)
 		upload(data, res, function(err) {
+			console.log("data bodynya loh: ",data.body)
 			var belumTerdaftar = false;
 			var jumlahLomba = 5;
 			if(err) {
@@ -55,24 +84,60 @@ class PJ {
 							attributes: ['id']
 						}).then((hasil) => {
 							if(hasil === null){
-								Peserta.sync().then(()=> {
-									Peserta.create({
-										photodiri_peserta:data.files[0].path,
-										photoKTM_peserta:data.files[1].path,
-										noHP_peserta:data.body.noHp,
-										fk_lombaId:data.body.idLomba,
-										fk_mahasiswaId:MHS.dataValues.id
-									}).then(() => {
-										jumlahLomba = jumlahLomba + 1;
-										Mhs.update({
-											jumlahlomba_mahasiswa: jumlahLomba
-										},{
-											where: {id: MHS.dataValues.id}
-										}).then(()=> {
-											res.json("BERHASIL")
+								if(data.body.status == "true") {
+								console.log("masuk ke true loh")
+									Peserta.findOne({
+										include: {
+											model: Mhs,
+											where: {
+												NIM_mahasiswa: data.body.nimMahasiswa
+											},
+											attributes: ['id']
+										},
+										attributes: ['photodiri_peserta', 'photoKTM_peserta']
+									}).then((namafile) => {
+										Peserta.sync().then(() => {
+											Peserta.create({
+												photodiri_peserta:namafile.dataValues.photodiri_peserta,
+												photoKTM_peserta:namafile.dataValues.photoKTM_peserta,
+												noHP_peserta:data.body.noHp,
+												fk_lombaId:data.body.idLomba,
+												fk_mahasiswaId:MHS.dataValues.id		
+											}).then(() => {
+												jumlahLomba = jumlahLomba + 1
+												Mhs.update({
+													jumlahlomba_mahasiswa: jumlahLomba
+												},{
+													where: {
+														id: MHS.dataValues.id
+													}
+												}).then(() =>{
+													res.json("BERHASIL")
+												})
+											})
 										})
 									})
-								});
+								} else {
+									console.log("masuk ke false loh")
+									Peserta.sync().then(()=> {
+										Peserta.create({
+											photodiri_peserta:data.files[0].path,
+											photoKTM_peserta:data.files[1].path,
+											noHP_peserta:data.body.noHp,
+											fk_lombaId:data.body.idLomba,
+											fk_mahasiswaId:MHS.dataValues.id
+										}).then(() => {
+											jumlahLomba = jumlahLomba + 1;
+											Mhs.update({
+												jumlahlomba_mahasiswa: jumlahLomba
+											},{
+												where: {id: MHS.dataValues.id}
+											}).then(()=> {
+												res.json("BERHASIL")
+											})
+										})
+									});
+								}
 							} else {
 								return res.status(200).send("3");//sudah terdaftar pada lomba yang sama
 							}
@@ -95,7 +160,7 @@ class PJ {
 			where: {
 				fk_lombaId: data.params.idlomba
 			},
-			attributes: ['photodiri_peserta', 'photoKTM_peserta', 'SKL_peserta', 'status_peserta', 'noHP_peserta'],
+			attributes: ['id','photodiri_peserta', 'photoKTM_peserta', 'SKL_peserta', 'status_peserta', 'noHP_peserta'],
 			include: [{
 				model: Mhs,
 				where: {
@@ -125,15 +190,15 @@ class PJ {
 			}).then(() => {
 				Mhs.findOne({
 					where: {
-						id: hasil
+						id: hasil.dataValues.fk_mahasiswaId
 					},
 					attributes: ['jumlahlomba_mahasiswa']
 				}).then((jumlah) => {
 					Mhs.update({
-						jumlahlomba_mahasiswa: jumlah - 1
+						jumlahlomba_mahasiswa: jumlah.dataValues.jumlahlomba_mahasiswa - 1
 					},{
 						where: {
-							id: hasil
+							id: hasil.dataValues.fk_mahasiswaId
 						}
 					}).then(() => {
 						res.json({status:true, message: "success"})
@@ -152,17 +217,25 @@ class PJ {
 	}
 	updatePeserta(data, res) {
 		upload(data, res, function(err) {
-			Peserta.update({
-				where: {
+			Peserta.findOne({
+				where:{
 					id: data.params.idpes
-				}
-			},{
-				photodiri_peserta: data.files[0].path,
-				photoKTM_peserta: data.files[1].path,
-				noHP_peserta: data.body.noHp,
-				fk_lombaId: data.body.idLomba
-			}).then(() => {
-				res.json({status: true, message:"Data updated"})
+				},
+				attributes: ['fk_mahasiswaId']
+			}).then((idmahasiswa) => {
+				Peserta.update({
+					where: {
+						fk_mahasiswaId: idmahasiswa.dataValues.fk_mahasiswaId
+					}
+				},{
+					photodiri_peserta: data.files[0].path,
+					photoKTM_peserta: data.files[1].path,
+					noHP_peserta: data.body.noHp
+				}).then(() => {
+					res.json("BERHASIL")
+				}).catch((err) => {
+					res.json({status: false, message: err})
+				})
 			}).catch((err) => {
 				res.json({status: false, message: err})
 			})
