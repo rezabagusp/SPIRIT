@@ -1,0 +1,39 @@
+<div class="app flex-row align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card-group mb-0">
+          <div class="card p-4">
+            <div class="card-block">
+              <h1>Contact Us</h1>
+              <p class="text-muted">Send your message and we will reply to you as soon as possible</p>
+
+              <form [formGroup]="emailForm">
+                <div class="mb-3 form-group">
+                  <label>Username</label>
+                  <input type="text" class="form-control" placeholder="Username" name="username" formControlName="username">
+                </div>
+
+                <div class="mb-3 form-group">
+                  <label>Judul</label>
+                  <input type="email" class="form-control" placeholder="Judul" name="judul" formControlName="judul">
+                </div>
+
+                <div class="mb-3 form-group">
+                  <label>Pesan</label>
+                  <textarea class="form-control" placeholder="Isi pesan" name="username" formControlName="pesan"> </textarea>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Send</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

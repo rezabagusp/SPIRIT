@@ -1,0 +1,8 @@
+.displayClass {
+  display: none;
+}
+
+.card-header span .fa{
+  display: inline;
+  margin: 0;
+}
