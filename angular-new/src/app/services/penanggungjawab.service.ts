@@ -21,7 +21,7 @@ export class PenanggungjawabService {
   pathDaftarPeserta="http://localhost:8000/pj/daftarPeserta";
   pathCheckNim="http://localhost:8000/pj/checkmahasiswa/"
   pathDeletePeserta="http://localhost:8000/pj/deletepeserta/"
-  
+  pathUpdatePeserta="http://localhost:8000/pj/updatepeserta/";
   token:string;
 
   jwtHelper: JwtHelper = new JwtHelper();
@@ -128,7 +128,7 @@ export class PenanggungjawabService {
 			formData.append("namaMahasiswa", nama);
 			formData.append("nimMahasiswa", nim);
 			formData.append("noHp", noHp);				
-			formData.append("idPeerta", idPeserta);			
+			formData.append("idPeserta", idPeserta);			
 
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
@@ -146,12 +146,9 @@ export class PenanggungjawabService {
 				this.progressObserver.next(this.progress);
 			};
 
-			console.log('ini yang dikirim ', files);
-			console.log('ini form data, harusnya keluar IdLomba', formData.getAll('idLomba') );
-			console.log('ini files.name', files[0]);
-
-			xhr.open("POST", this.pathDaftarPeserta, true);
+			xhr.open("POST", this.pathUpdatePeserta+idPeserta, true);
 			xhr.setRequestHeader('token', this.token);//put token to API
+			console.log('ini form data, harusnya keluar nama', nama );			
 			xhr.send(formData);
 		});
 

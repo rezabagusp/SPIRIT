@@ -216,7 +216,9 @@ class PJ {
 		})
 	}
 	updatePeserta(data, res) {
+
 		upload(data, res, function(err) {
+			console.log("bodynya",data.body)
 			Peserta.findOne({
 				where:{
 					id: data.params.idpes
@@ -224,20 +226,21 @@ class PJ {
 				attributes: ['fk_mahasiswaId']
 			}).then((idmahasiswa) => {
 				Peserta.update({
-					where: {
-						fk_mahasiswaId: idmahasiswa.dataValues.fk_mahasiswaId
-					}
-				},{
 					photodiri_peserta: data.files[0].path,
 					photoKTM_peserta: data.files[1].path,
 					noHP_peserta: data.body.noHp
+				},{
+					where: {
+						fk_mahasiswaId: idmahasiswa.dataValues.fk_mahasiswaId
+					}
 				}).then(() => {
 					res.json("BERHASIL")
 				}).catch((err) => {
-					res.json({status: false, message: err})
+					res.json({status: false, message: "adaww"})
 				})
 			}).catch((err) => {
-				res.json({status: false, message: err})
+				console.log(err)
+				res.json({status: false, message: "kcaoss"})
 			})
 		})
 	}

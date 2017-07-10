@@ -9,14 +9,13 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 //Lighbox library
 import { Lightbox } from 'angular2-lightbox';
-//modals
-import { ModalService } from '../../services/modal.service'
+
 
 
 @Component({
   templateUrl: 'sepakbola.component.html',
   styleUrls: ['./sepakbola.component.css'],
-  providers: [PenanggungjawabService, ModalService]
+  providers: [PenanggungjawabService]
 })
 
 export class SepakBolaComponent implements OnInit  {
@@ -56,8 +55,7 @@ export class SepakBolaComponent implements OnInit  {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private _lightbox: Lightbox,
-    private cd: ChangeDetectorRef,
-    private modalService: ModalService
+    private cd: ChangeDetectorRef
     ) { 
     this.listPeserta=[];
     this.fileValid=false;
@@ -102,8 +100,8 @@ export class SepakBolaComponent implements OnInit  {
     this.noHpUpdate='';
 
     this.myFormUpdate = this._fb.group({
-      namaUpdate: [this.namaUpdate,[Validators.required]],
-      nimUpdate: [this.nimUpdate,[Validators.required, Validators.minLength(9)]],
+      namaUpdate: [this.namaUpdate,[]],
+      nimUpdate: [this.nimUpdate,[]],
       noHpUpdate: [this.noHpUpdate, [Validators.required,Validators.minLength(10)]]
     })
 
@@ -166,20 +164,14 @@ export class SepakBolaComponent implements OnInit  {
             console.log(data.nama_mahasiswa)
             console.log(data.NIM_mahasiswa)            
             
-/*            this.myForm.controls['nama'].setValue(data.nama_mahasiswa);
-*/            
+
             this.myForm.get('nama').setValue(data.nama_mahasiswa);
             this.myForm.get('nim').setValue(data.NIM_mahasiswa);            
-/*
-            this.myForm.value.nama=data.nama_mahasiswa
-            this.myForm.value.nim=data.NIM_mahasiswa*/
             console.log("isi form after check: 111 ", this.myForm.value)
 
             console.log("value nim after check: ", this.myForm)
             this.myForm.get('nama').disable();  
             this.myForm.get('nim').disable();
-  /*          this.myForm.get('noHp').disable();
-*/
           }
 
         }
@@ -275,11 +267,6 @@ export class SepakBolaComponent implements OnInit  {
       });
   }
 
-  // openModal2(peserta){
-  //   console.log("modal peserrta: ", peserta)
-  //   this.myModal.show()
-  // }
-
   deleteConfirm(){
     return swal({
         title: 'Are you sure?',
@@ -324,10 +311,15 @@ export class SepakBolaComponent implements OnInit  {
     
   }
 
-  updatePeserta(){
+  updatePeserta(peserta){
     let token = this.penanggungjawabservice.token;
+    this.myFormUpdate.get('namaUpdate').setValue(peserta.mahasiswa.nama_mahasiswa);
+    this.myFormUpdate.get('nimUpdate').setValue(peserta.mahasiswa.NIM_mahasiswa);
+    this.myFormUpdate.get('noHpUpdate').setValue(this.myFormUpdate.value.noHpUpdate);
+
+    console.log("ini pesertanya : ", peserta);
     console.log('ini yangg mau di KIRIM DATA UPDATE', this.myFormUpdate.value);
-    this.penanggungjawabservice.updatePeserta(this.filesToUpload, this.myFormUpdate.value.nama,this.myFormUpdate.value.nim,this.myFormUpdate.value.noHp, 8 )
+    this.penanggungjawabservice.updatePeserta(this.filesToUpload, this.myFormUpdate.value.namaUpdate,this.myFormUpdate.value.nimUpdate,this.myFormUpdate.value.noHpUpdate, peserta.id )
       .then((result) => {
         console.log('balikannya ', result);
           if(result==="BERHASIL"){
@@ -386,15 +378,6 @@ export class SepakBolaComponent implements OnInit  {
         
     // open lightbox
     this._lightbox.open(pot, index);
-  }
-
-  openModal(id: string){
-      this.modalService.open(id);
-      console.log("mau buka")
-  }
-
-  closeModal(id: string){
-      this.modalService.close(id);
   }
 
 
