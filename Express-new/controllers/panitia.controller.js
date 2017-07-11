@@ -18,11 +18,7 @@ class Panitia {
 	daftarPesertaBaru(data, res) {
 		Peserta.findAll({
 			where: {
-<<<<<<< HEAD
 				status_peserta: null
-=======
-				status_peserta: false
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 			},
 			attributes: ['id', 'photodiri_peserta', 'photoKTM_peserta', 'status_peserta', 'SKL_peserta'],
 			include: [{
@@ -32,11 +28,7 @@ class Panitia {
 						$lt: 4
 					}
 				},
-<<<<<<< HEAD
 				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
-=======
-				attributes: ['nama_mahasiswa', 'NIM_mahasiswa'],
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 				include: [{
 					model: Departement,
 					attributes: ['nama_departement']
@@ -57,16 +49,12 @@ class Panitia {
 	daftarTingkatAkhir(data, res) {
 		Peserta.findAll({
 			where: {
-<<<<<<< HEAD
 				status_peserta:{
 					$or:{
 						$eq: null,
 						$not: true
 					}
 				}
-=======
-				status_peserta: null
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 			},
 			attributes: ['id', 'photodiri_peserta', 'photoKTM_peserta', 'status_peserta', 'SKL_peserta'],
 			include: [
@@ -77,11 +65,7 @@ class Panitia {
 						$gte: 4
 					}
 				},
-<<<<<<< HEAD
 				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
-=======
-				attributes: ['nama_mahasiswa', 'NIM_mahasiswa'],
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 				include: [
 				{
 					model: Departement,
@@ -92,14 +76,10 @@ class Panitia {
 			{
 				model: Lomba,
 				attributes: ['nama_lomba']
-<<<<<<< HEAD
 			}],
 			order: [
 				['fk_mahasiswaId']
 			]
-=======
-			}]
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 		}).then((Peserta) => {
 			res.json(Peserta)
 		}).catch((err) => {
@@ -122,11 +102,7 @@ class Panitia {
 						$lte: 4
 					}
 				},
-<<<<<<< HEAD
 				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
-=======
-				attributes: ['nama_mahasiswa', 'NIM_mahasiswa'],
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 				include: [{
 					model: Departement,
 					attributes: ['nama_departement']
@@ -143,11 +119,7 @@ class Panitia {
 			res.json({status: false, message: "invalid query", error: err})
 		})
 	}
-<<<<<<< HEAD
 	/*verifikasi biasa*/
-=======
-
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 	verifikasi(data, res) {
 		res.json(1);
 		Peserta.update({
@@ -155,18 +127,11 @@ class Panitia {
 			SKL_peserta: true		
 		},{
 			where: {
-<<<<<<< HEAD
 				fk_mahasiswaId: data.params.id
 			}
 		})
 	}
 	/*verifikasi TA*/
-=======
-				id: data.params.id
-			}
-		})
-	}
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 	verifikasiTingkatAkhir(data,res){
 		res.json(1);
 		Peserta.update({
@@ -185,11 +150,7 @@ class Panitia {
 			SKL_peserta: false		
 		},{
 			where: {
-<<<<<<< HEAD
 				fk_mahasiswaId: data.params.id
-=======
-				id: data.params.id
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
 			}
 		})
 	}

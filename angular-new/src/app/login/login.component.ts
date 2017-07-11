@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
       result=> {
         if(result){
           swal(
-            'Success',
+            'Welcome!',
             'Click Ok',
             'success'
           )

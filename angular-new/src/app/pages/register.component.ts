@@ -44,7 +44,6 @@ export class RegisterComponent {
     this.panitiaService.getAllPesertaVerified()
     .subscribe(
       data=> {
-<<<<<<< HEAD
          // pengolahan id yang sama
         let tempId = data[0].mahasiswa.id
         let lombas = []
@@ -75,9 +74,6 @@ export class RegisterComponent {
         // end of pengolahan id yang sama
 
         // this.participants = data;
-=======
-        this.participants = data;
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
         console.log('ini list peserta ', this.participants);
         console.log('ini panjangnyaa', this.participants.toString().length);
         this.dtTrigger.next();
@@ -101,10 +97,7 @@ export class RegisterComponent {
 
   public unverifikasi(id:number){
 
-<<<<<<< HEAD
     console.log("ini id mahasiswa", id);
-=======
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
     let result;
     swal({
       title: 'Are you sure?',
@@ -126,10 +119,7 @@ export class RegisterComponent {
               'Your data has been deleted.',
               'success'
             )
-<<<<<<< HEAD
           this.participants = [];
-=======
->>>>>>> e9e4045bcaf986a40c8f67e235f62d30f3d65c02
           this.ngOnInit();
           }
           //location.reload();
