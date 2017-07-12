@@ -1,14 +1,15 @@
 <div class="animated fadeIn">
   <div class="row">
-    <div class="col-sm-6 col-lg-3">
+
+    <div class="col-sm-6 col-lg-3" *ngIf="role== 'panitia' ">
       <div class="card card-inverse card-primary">
         <div class="card-block pb-0">
           <div class="btn-group float-right" dropdown>
           </div>
-          <h4 class="mb-0">105</h4>
+          <h4 class="mb-0">{{ jumlahParticpants }}</h4>
           <p>Kontingen yang terdaftar</p>
         </div>
-        <div class="chart-wrapper px-3" style="height:70px;">
+       <!--  <div class="chart-wrapper px-3" style="height:70px;">
           <canvas baseChart class="chart"
           [datasets]="lineChart1Data"
           [labels]="lineChart1Labels"
@@ -18,75 +19,24 @@
           [chartType]="lineChart1Type"
           (chartHover)="chartHovered($event)"
           (chartClick)="chartClicked($event)"></canvas>
-        </div>
+        </div> -->
       </div>
     </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
+    <div class="col-sm-6 col-lg-3" *ngIf="role== 'panitia' ">
       <div class="card card-inverse card-info">
         <div class="card-block pb-0">
-          <h4 class="mb-0">95</h4>
+          <h4 class="mb-0">{{ jumlahParticpantsVerified }}</h4>
           <p>Kontingen lolos verifikasi</p>
-        </div>
-        <div class="chart-wrapper px-3" style="height:70px;">
-          <canvas baseChart class="chart"
-          [datasets]="lineChart2Data"
-          [labels]="lineChart2Labels"
-          [options]="lineChart2Options"
-          [colors]="lineChart2Colours"
-          [legend]="lineChart2Legend"
-          [chartType]="lineChart2Type"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
     </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
+    <div class="col-sm-6 col-lg-3" *ngIf="role== 'penanggungjawab' ">
       <div class="card card-inverse card-warning">
         <div class="card-block pb-0">
           <div class="btn-group float-right">
           </div>
-          <h4 class="mb-0">3</h4>
+          <h4 class="mb-0">{{peringkat}}</h4>
           <p>Peringkat</p>
-        </div>
-        <div class="chart-wrapper" style="height:70px;">
-          <canvas baseChart class="chart"
-          [datasets]="lineChart3Data"
-          [labels]="lineChart3Labels"
-          [options]="lineChart3Options"
-          [colors]="lineChart3Colours"
-          [legend]="lineChart3Legend"
-          [chartType]="lineChart3Type"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
-        </div>
-      </div>
-    </div><!--/.col-->
-    <div class="col-sm-6 col-lg-3">
-      <div class="card card-inverse card-danger">
-        <div class="card-block pb-0">
-          <div class="btn-group float-right" dropdown>
-            <button type="button" class="btn btn-transparent dropdown-toggle p-0" dropdownToggle>
-              <i class="icon-settings"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
-              <a class="dropdown-item" href="#">Action</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </div>
-          <h4 class="mb-0">9.823</h4>
-          <p>Members online</p>
-        </div>
-        <div class="chart-wrapper px-3" style="height:70px;">
-          <canvas baseChart class="chart"
-          [datasets]="barChart1Data"
-          [labels]="barChart1Labels"
-          [options]="barChart1Options"
-          [colors]="barChart1Colours"
-          [legend]="barChart1Legend"
-          [chartType]="barChart1Type"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
         </div>
       </div>
     </div><!--/.col-->

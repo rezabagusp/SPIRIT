@@ -15,6 +15,38 @@ Mahasiswa.belongsTo(Departement, {foreignKey:'fk_departementId'});
 
 class Panitia {
 
+
+	daftarPeserta(data, res) {
+		Peserta.findAll({
+			where: {
+				status_peserta: null
+			},
+			attributes: ['id', 'photodiri_peserta', 'photoKTM_peserta', 'status_peserta', 'SKL_peserta'],
+			include: [{
+				model: Mahasiswa,
+				where: {
+					tingkat_mahasiswa: {
+						$lte: 4
+					}
+				},
+				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
+				include: [{
+					model: Departement,
+					attributes: ['nama_departement']
+				}]
+			},
+			{
+				model: Lomba,
+				attributes: ['nama_lomba']
+			}]
+		}).then((Peserta) => {
+			res.json(Peserta)
+		}).catch((err) => {
+			console.log(err)
+			res.json({status: false, message: "invalid query", error: err})
+		})
+	}
+
 	daftarPesertaBaru(data, res) {
 		Peserta.findAll({
 			where: {

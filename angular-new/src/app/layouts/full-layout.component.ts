@@ -27,7 +27,7 @@ export class FullLayoutComponent implements OnInit {
   public role;
   public roleDepan;
   public username;
-  private participant = [];
+  public participant = [];
 
   constructor(private http: Http,
               private authenticationService: AuthenticationService,
@@ -60,10 +60,10 @@ export class FullLayoutComponent implements OnInit {
   }
 
   public getPeserta(){
-    this.panitiaService.getAllPeserta().subscribe(
+    this.panitiaService.getPesertaBaru().subscribe(
       data => {
         this.participant = data;
-        console.log(this.participant)
+        console.log('Ini datanya', this.participant);
       }
     )
   }
