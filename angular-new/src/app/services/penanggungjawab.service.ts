@@ -17,11 +17,11 @@ export class PenanggungjawabService {
   idDepartemen;
   idLomba;
   //path request API
-  pathGetPeserta="http://localhost:8000/pj/listpeserta/";
-  pathDaftarPeserta="http://localhost:8000/pj/daftarPeserta";
-  pathCheckNim="http://localhost:8000/pj/checkmahasiswa/"
-  pathDeletePeserta="http://localhost:8000/pj/deletepeserta/"
-  pathUpdatePeserta="http://localhost:8000/pj/updatepeserta/";
+  pathGetPeserta="http://localhost:8080/pj/listpeserta/";
+  pathDaftarPeserta="http://localhost:8080/pj/daftarPeserta";
+  pathCheckNim="http://localhost:8080/pj/checkmahasiswa/"
+  pathDeletePeserta="http://localhost:8080/pj/deletepeserta/"
+  pathUpdatePeserta="http://localhost:8080/pj/updatepeserta/";
   token:string;
 
   jwtHelper: JwtHelper = new JwtHelper();

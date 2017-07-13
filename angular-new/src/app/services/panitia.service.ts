@@ -20,13 +20,13 @@ export class PanitiaService {
   filesToUpload: Array<File>;
   idLomba;
   //path request API
-  public pathGetPeserta="http://localhost:8000/panitia/daftarPesertaBaru/";
-  public pathGetPesertaTingkatAkhir="http://localhost:8000/panitia/daftarTingkatAkhir/";
-  public pathGetPesertaVerified="http://localhost:8000/panitia/daftarPesertaVerified/";
+  public pathGetPeserta="http://localhost:8080/panitia/daftarPesertaBaru/";
+  public pathGetPesertaTingkatAkhir="http://localhost:8080/panitia/daftarTingkatAkhir/";
+  public pathGetPesertaVerified="http://localhost:8080/panitia/daftarPesertaVerified/";
 
-  public pathVerifPeserta="http://localhost:8000/panitia/verifikasi/";
-  public pathVerifTingkatAkhir="http://localhost:8000/panitia/verifikasiTingkatAkhir/";
-  public pathUnverifPeserta="http://localhost:8000/panitia/unverifikasi/";
+  public pathVerifPeserta="http://localhost:8080/panitia/verifikasi/";
+  public pathVerifTingkatAkhir="http://localhost:8080/panitia/verifikasiTingkatAkhir/";
+  public pathUnverifPeserta="http://localhost:8080/panitia/unverifikasi/";
 
 
   token:string;

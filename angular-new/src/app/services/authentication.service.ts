@@ -8,8 +8,8 @@ import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 export class AuthenticationService {
   public jwtHelper: JwtHelper = new JwtHelper();
 
-  public urlLogin = 'http://localhost:8000/login/masuk';
-  public urlForgorPassword = 'http://localhost:8000/login/reset';
+  public urlLogin = 'http://localhost:8080/login/masuk';
+  public urlForgorPassword = 'http://localhost:8080/login/reset';
 
   private currentUser;
   private token:string;

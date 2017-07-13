@@ -45,8 +45,8 @@ export class SepakBolaComponent implements OnInit  {
   coba="/src/img/images/coba0.jpg"
   
 
-  private submitted: boolean = false;
-  private uploadProgress: number = 0;
+  public submitted: boolean = false;
+  public uploadProgress: number = 0;
 
 
   constructor(private _fb: FormBuilder, 
@@ -118,7 +118,7 @@ export class SepakBolaComponent implements OnInit  {
       data=> {
         this.listPeserta = data;
         for (let x in this.listPeserta )
-           this.listPeserta[x].album = [{"src":"http://localhost:4200/src/img/"+this.listPeserta[x].photoKTM_peserta,"caption": "Photo KTM"}, {"src":"http://localhost:4200/src/img/"+this.listPeserta[x].photodiri_peserta, "caption": "Photo"} ]
+           this.listPeserta[x].album = [{"src":"assets/img/background.jpg","caption": "Photo KTM"}, {"src":"assets/img/background.jpg", "caption": "Photo"} ]
         console.log('ini list peserta ', this.listPeserta);
         console.log('ini panjangnyaa', this.listPeserta.toString().length);
      }
