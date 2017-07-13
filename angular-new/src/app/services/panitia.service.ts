@@ -20,9 +20,17 @@ export class PanitiaService {
   filesToUpload: Array<File>;
   idLomba;
   //path request API
+<<<<<<< HEAD
   public pathGetPeserta="http://localhost:8080/panitia/daftarPesertaBaru/";
   public pathGetPesertaTingkatAkhir="http://localhost:8080/panitia/daftarTingkatAkhir/";
   public pathGetPesertaVerified="http://localhost:8080/panitia/daftarPesertaVerified/";
+=======
+  public pathGetPesertaBaru="http://localhost:8000/panitia/daftarPeserta/";
+
+  public pathGetPeserta="http://localhost:8000/panitia/daftarPesertaBaru/";
+  public pathGetPesertaTingkatAkhir="http://localhost:8000/panitia/daftarTingkatAkhir/";
+  public pathGetPesertaVerified="http://localhost:8000/panitia/daftarPesertaVerified/";
+>>>>>>> 8d34723ad6afc9f20b425eb8513e9c3ecf84cf71
 
   public pathVerifPeserta="http://localhost:8080/panitia/verifikasi/";
   public pathVerifTingkatAkhir="http://localhost:8080/panitia/verifikasiTingkatAkhir/";
@@ -37,6 +45,20 @@ export class PanitiaService {
     this.token = localStorage.getItem('token');
     var user = this.jwtHelper.decodeToken(this.token);
  
+  }
+
+  public getPesertaBaru(){
+
+    let header= new Headers();
+    header.append('Content-type', 'application/json' );
+    header.append('token', this.token );//put token to request API
+
+    console.log(header);
+
+    return this.http.get(this.pathGetPesertaBaru, {headers:header})
+      .map((response: Response) =>
+        response.json()
+      );
   }
 
   public getAllPesertaTingkatAkhir(){

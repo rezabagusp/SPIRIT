@@ -3,6 +3,10 @@ var express = require('express'),
 	panitia = require('../controllers/panitia.controller'),
 	user = new panitia;
 
+router.get('/daftarPeserta', function(req, res, next) {
+	user.daftarPeserta(req, res);
+});
+
 router.get('/daftarPesertaBaru', function(req, res, next) {
 	user.daftarPesertaBaru(req, res);
 });

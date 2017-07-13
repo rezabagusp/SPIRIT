@@ -44,7 +44,36 @@ export class LoginComponent implements OnInit {
     this.panitiaService.getAllPesertaTingkatAkhir()
     .subscribe(
       data=> {
-        this.participants = data;
+        // pengolahan id yang sama
+        let tempId = data[0].mahasiswa.id;
+        let lombas = [];
+        let i = 0;
+        let j = 0;
+        let k = 0;
+        for(let list of data)
+        {
+          if(tempId != list.mahasiswa.id) {
+            data[j-1].lombas = lombas;
+            this.participants[k] = data[j-1];
+            k++;
+            tempId = list.mahasiswa.id;
+            lombas = [];
+            i = 0;
+            lombas[0] = list.lomba.nama_lomba;
+            i++;
+          } else {
+            lombas[i] = list.lomba.nama_lomba;
+            i++;
+          }
+          j++;
+          console.log('looping loh',list);
+        }
+        data[j-1].lombas = lombas;
+        this.participants[k] = data[j-1];
+
+        // end of pengolahan id yang sama
+
+        // this.participants = data;
         console.log('ini list peserta ', this.participants);
         console.log('ini panjangnyaa', this.participants.toString().length);
         this.dtTrigger.next();
@@ -73,12 +102,12 @@ export class LoginComponent implements OnInit {
     let result;
     swal({
       title: 'Are you sure?',
-      text: "You want to update this data!",
+      text: "This data will be updated to verified status!",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, update it!'
+      confirmButtonText: 'Yes, verifiy it!'
     }).then( () => {
       this.panitiaService.verifikasiPeserta(id)
       .subscribe(
@@ -89,6 +118,7 @@ export class LoginComponent implements OnInit {
               'Your data has been updated.',
               'success'
             )
+            this.participants = [];
             this.ngOnInit();
           }
           //location.reload();

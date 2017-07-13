@@ -48,11 +48,6 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   
-/*  { path: '**',//default when url doesnt maatch anything
-    component: 'login', 
-    //pathMatch: 'full' //pathmatch full itu untuk nahan url yang ngasal kesini
-  },*/
-
   {
     path: '',
     component: FullLayoutComponent,
@@ -84,8 +79,8 @@ export const routes: Routes = [
       },
       {
         path: 'pages',
-        loadChildren: './pages/pages.module#PagesModule'
-        //canActivateChild: [PanitiaGuard]
+        loadChildren: './pages/pages.module#PagesModule',
+        canActivateChild: [PanitiaGuard]
 
       }
     ]

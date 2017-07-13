@@ -25,7 +25,11 @@
                   <td>{{participant.mahasiswa.nama_mahasiswa}}</td>
                   <td>{{participant.mahasiswa.NIM_mahasiswa}}</td>
                   <td>{{participant.mahasiswa.departement.nama_departement}}</td>
-                  <td>{{participant.lomba.nama_lomba}}</td>
+                  <td>
+                    <div *ngFor="let lomba of participant.lombas">
+                      {{lomba}}
+                    </div>
+                  </td>
                   <td>
                     <a href="javascript:void(0)" class="thumbnail">
                       <img class="img-thumbnail" src = {{participant.album[0].src}} width="104" height="36" (click)="openPhoto(participant.album,0 )">
@@ -41,7 +45,7 @@
                   </td>
                   <td><span
                     [ngClass]=" {'badge badge-danger': participant.status_peserta === false}">Unverified</span></td>
-                  <td><button type="button" class="btn btn-sm btn-primary" (click)="verifikasi(participant.id)" [disabled]="!participant.SKL_peserta">Verifikasi</button></td>
+                  <td><button type="button" class="btn btn-sm btn-primary" (click)="verifikasi(participant.mahasiswa.id)" [disabled]="!participant.SKL_peserta">Verifikasi</button></td>
                 </tr>
               </tbody>
             </table>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+ import { Component, OnInit } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Subject } from 'rxjs/Rx';
@@ -47,7 +47,37 @@ export class P404Component {
     this.panitiaService.getAllPeserta()
     .subscribe(
       data=> {
-        this.participants = data;
+
+         // pengolahan id yang sama
+        let tempId = data[0].mahasiswa.id
+        let lombas = []
+        let i = 0
+        let j = 0
+        let k = 0
+        for(let list of data)
+        {
+          if(tempId != list.mahasiswa.id) {
+            data[j-1].lombas = lombas;
+            this.participants[k] = data[j-1];
+            k++;
+            tempId = list.mahasiswa.id;
+            lombas = [];
+            i = 0;
+            lombas[0] = list.lomba.nama_lomba;
+            i++;
+          } else {
+            lombas[i] = list.lomba.nama_lomba;
+            i++;
+          }
+          j++;
+          console.log('looping loh',list);
+        }
+        data[j-1].lombas = lombas;
+        this.participants[k] = data[j-1];
+
+        // end of pengolahan id yang sama
+
+        // this.participants = data;
         console.log('ini list peserta ', this.participants);
         console.log('ini panjangnyaa', this.participants.toString().length);
         this.dtTrigger.next();
@@ -73,12 +103,12 @@ export class P404Component {
     let result;
     swal({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: "This data will be updated to verified status!",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes, verifiy it!'
     }).then( () => {
       this.panitiaService.verifikasiPeserta(id)
       .subscribe(
@@ -91,6 +121,7 @@ export class P404Component {
               'Your file has been deleted.',
               'success'
             )
+            this.participants = [];
             this.ngOnInit();
           }
           //location.reload();

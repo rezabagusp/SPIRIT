@@ -17,6 +17,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
+const port = process.env.PORT || 8080;
+
 // mahasiswa = sequelize.import(__dirname + '/models/mahasiswa.model');
 // departement = sequelize.import(__dirname + '/models/departement.model');
 // mahasiswa.belongsTo(departement, {foreignKey:'fk_departementId'});
