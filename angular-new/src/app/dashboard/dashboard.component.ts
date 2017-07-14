@@ -1,18 +1,54 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { PanitiaService } from '../services/panitia.service';
+import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
+
+
+
 @Component({
-  templateUrl: 'dashboard.component.html'
+  templateUrl: 'dashboard.component.html',
+  providers: [PanitiaService]
 })
 export class DashboardComponent implements OnInit {
 
-  // constructor( ) { }
+  constructor(
+    private panitiaService: PanitiaService
+  ) 
+  {
+    var user = this.jwtHelper.decodeToken(localStorage.getItem('token'))
+    if(user.status_pj){
+      this.role = "penanggungjawab";
+      this.username = user.username_pj
+    }
+
+    else if(user.status_panitia){
+      this.role = "panitia";
+      this.username = user.username_panitia 
+    }
+
+    console.log("ini rolenya", this.role);
+  }
+
+  public peringkat: number = Math.floor(Math.random() * 9) + 1; 
 
   public brandPrimary = '#20a8d8';
   public brandSuccess = '#4dbd74';
   public brandInfo = '#63c2de';
   public brandWarning = '#f8cb00';
   public brandDanger = '#f86c6b';
+
+  public role;
+  public username;
+
+  public participants = [];
+  public participantsVerified = [];
+
+  public jumlahParticpants: number;
+  public jumlahParticpantsVerified: number;
+
+  //jwthelper
+  jwtHelper: JwtHelper = new JwtHelper();
 
   // dropdown buttons
   public status: { isopen } = { isopen: false };
@@ -454,10 +490,36 @@ export class DashboardComponent implements OnInit {
   public sparklineChartType = 'line';
 
 
+  public getPeserta(){
+    this.panitiaService.getPesertaBaru().subscribe(
+      data => {
+        this.participants = data;
+        console.log('Ini datanya', this.participants);
+
+        this.jumlahParticpants = this.participants.length;
+        console.log('ini jumlahnya',this.jumlahParticpants);
+      }
+    )
+  }
+
+  public getVerifiedPeserta(){
+    this.panitiaService.getAllPesertaVerified().subscribe(
+      data => {
+        this.participantsVerified = data;
+        console.log('Ini datanya verfiy', this.participantsVerified);
+
+        this.jumlahParticpantsVerified = this.participantsVerified.length;
+        console.log('ini jumlahnya verified',this.jumlahParticpantsVerified);
+      }
+    )
+  }
+
   ngOnInit(): void {
     // generate random values for mainChart
     for (let i = 0; i <= this.mainChartElements; i++) {
       this.mainChartData1.push(this.random(1, 8));
     }
+    this.getPeserta();
+    this.getVerifiedPeserta();
   }
 }

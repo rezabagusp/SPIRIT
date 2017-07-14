@@ -10,8 +10,8 @@
     </li>
   </ul>
   <ul class="nav navbar-nav ml-auto">
-      <li style="margin-right: 10px;">
-        <a class="nav-link" href="#">ADMIN</a>
+      <li style="margin-right: 15px; " class="text-muted">
+        {{roleDepan}}
       </li>
   </ul>
 </header>
@@ -40,21 +40,6 @@
             <li class="nav-item">
               <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/olahraga/voli',3]"><i class="icon-puzzle"></i> Voli</a>
             </li>
-<!--             <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/olahraga/badminton',4]"><i class="icon-puzzle"></i> Badminton</a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/modals']"><i class="icon-puzzle"></i> Modals</a>
-            </li>
-<!--             <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/switches']"><i class="icon-puzzle"></i> Switches</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/tables']"><i class="icon-puzzle"></i> Tables</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/tabs']"><i class="icon-puzzle"></i> Tabs</a>
-            </li> -->
           </ul>
         </li>
         <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
@@ -63,42 +48,9 @@
             <li class="nav-item">
               <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/seni/vocalgroup',1]"><i class="icon-star"></i> Vocal Group</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/icons/simple-line-icons']"><i class="icon-star"></i> Simple Line Icons</a>
-            </li>
           </ul>
         </li>
- <!--        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/widgets']"><i class="icon-calculator"></i> Widgets <span class="badge badge-info">NEW</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/charts']"><i class="icon-pie-chart"></i> Charts</a>
-        </li>
-        <li class="divider"></li>
-        <li class="nav-title">
-          Extras
-        </li> -->
-        <li class="nav-title">
-          Verifikasi
-        </li>
-        <li class="nav-item nav-dropdown" appNavDropdown>
-          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-star"></i> Verifikasi</a>
-          <ul class="nav-dropdown-items">
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/register']"><i class="icon-star"></i> Mhs Terverifikasi</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/404']"><i class="icon-star"></i> Verifikasi Kontingen</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/login']"><i class="icon-star"></i> Verifikasi MA</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/500']"><i class="icon-star"></i> Error 500</a>
-            </li>
-          </ul>
-        </li>
-        <li class="divider"></li>
+              
         <li class="nav-title">
           USER
         </li>
@@ -120,71 +72,18 @@
         <li class="nav-title">
           Verifikasi
         </li>
-<!--         <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
-          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-puzzle"></i> Olahraga</a>
-          <ul class="nav-dropdown-items">
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/olahraga/sepakbola',1]"><i class="icon-puzzle"></i> Sepakbola</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/olahraga/basket',2]"><i class="icon-puzzle"></i> Basket</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/olahraga/voli',3]"><i class="icon-puzzle"></i> Voli</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/olahraga/badminton',4]"><i class="icon-puzzle"></i> Badminton</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/modals']"><i class="icon-puzzle"></i> Modals</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/switches']"><i class="icon-puzzle"></i> Switches</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/tables']"><i class="icon-puzzle"></i> Tables</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/tabs']"><i class="icon-puzzle"></i> Tabs</a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
-          <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-star"></i> Seni</a>
-          <ul class="nav-dropdown-items">
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pendaftaran/seni/vocalgroup',1]"><i class="icon-star"></i> Vocal Group</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/icons/simple-line-icons']"><i class="icon-star"></i> Simple Line Icons</a>
-            </li>
-          </ul>
-        </li> -->
- <!--        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/widgets']"><i class="icon-calculator"></i> Widgets <span class="badge badge-info">NEW</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" [routerLink]="['/charts']"><i class="icon-pie-chart"></i> Charts</a>
-        </li>
-        <li class="divider"></li>
-        <li class="nav-title">
-          Extras
-        </li> -->
         <li class="nav-item nav-dropdown" appNavDropdown>
           <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-star"></i>Peserta</a>
           <ul class="nav-dropdown-items">
             <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/login']"><i class="icon-star"></i> Verifikasi Mahasiswa Akhir</a>
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/login']"><i class="icon-star"></i> Verifikasi Tingkat Akhir</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/register']"><i class="icon-star"></i> Kontingen Terverifikasi</a>
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/register']"><i class="icon-star"></i> Peserta Terverifikasi</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/404']"><i class="icon-star"></i>Verifikasi Akhir 404</a>
+              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/404']"><i class="icon-star"></i>Verifikasi Peserta</a>
             </li>
-<!--             <li class="nav-item">
-              <a class="nav-link" routerLinkActive="active" [routerLink]="['/pages/500']"><i class="icon-star"></i> Error 500</a>
-            </li> -->
           </ul>
         </li>
         <li class="divider"></li>
@@ -222,6 +121,6 @@
 </div>
 
 <footer class="app-footer">
-  <a href="http://coreui.io">CoreUI</a> &copy; 2017 creativeLabs.
+  <a href="http://coreui.io">Parhan, Reza, Miqdad</a> &copy; 2017 WeTry.
   <span class="float-right">Powered by <a href="http://coreui.io">CoreUI</a></span>
 </footer>

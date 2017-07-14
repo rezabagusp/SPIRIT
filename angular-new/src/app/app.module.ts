@@ -47,6 +47,7 @@ import { PanitiaGuard } from './_guards/panitia.guard';
 //lightbox 
 import { LightboxModule } from 'angular2-lightbox';
 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -71,8 +72,6 @@ import { LightboxModule } from 'angular2-lightbox';
     NAV_DROPDOWN_DIRECTIVES,
     BreadcrumbsComponent,
     SIDEBAR_TOGGLE_DIRECTIVES,
-    
-
 
     LoginComponent,
     NeedHelpComponent,

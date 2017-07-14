@@ -4,18 +4,10 @@
       <div class="margin-20">
         <div class="judul">
           <h4>Tambahkan Kontingen</h4>
-            <!-- <div class="row col-md-6">
-            <div class="form-group">
-              <label for="sel1">Cabang:</label>
-              <select class="form-control" id="sel1">
-              <option>putra</option>
-              <option>putri</option>
-              </select>
-            </div>
-            </div> -->
+
         </div>
       </div>
-<!--   <button type="button" (click)="test()" class="btn btn-primary">test jwt</button>  -->
+
       <form [formGroup]="myForm" novalidate >
         <div class="panel panel-default">
           <div class="animated fadeIn">
@@ -23,29 +15,24 @@
               <div class="card-header">
                 <div class="row">
                   <div class="col-md-12">
-                    <b>Kontingen</b> <a href="javascript:void(0)" ><i class="fa fa-refresh pull-right" aria-hidden="true" (click)="ngOnInit()"></i></a>
+                    <b>Kontingen</b> <a href="javascript:void(0)" ><i class="fa fa-refresh pull-right" aria-hidden="true" (click)="refreshForm()"></i></a>
 
                   </div>
                 </div>
               </div>
-              <!-- if mahasiswa sudah terdaftar -->
+
               <div class="card-block">
-                <!-- <app-kontingen [group]="myForm.controls.peserta.controls[i]"></app-kontingen> -->
+
                 <span *ngIf="checkingNim" class="badge badge-success">Data Mahasiswa Sudah Tersedia</span>                 
                 <div [hidden]= "checkingNim==null" class="form-group col-xs-6">
                   <label>Nama</label>
                   <input type="text" class="form-control" formControlName="nama">
-                  <small *ngIf="!checkingNim" [hidden]="myForm.controls.nama.valid" class="text-danger">
-                    Nama perlu diisi
-                  </small>
+
                 </div>
 
                 <div class="form-group col-xs-6">
                   <label>NIM</label>
                   <input type="text" class="form-control" formControlName="nim" >
-                  <small *ngIf="!checkingNim"  [hidden]="myForm.controls.nim.valid" class="text-danger">
-                    NIM perlu diisi
-                  </small>
                 </div>
                   
                 <div [hidden]= "checkingNim==null" class="form-group col-xs-6">
@@ -67,7 +54,7 @@
                       </a>   
 
                     </div>                      
-                    <input *ngIf="!checkingNim"  type="file" (change)="fileChangeEvent($event)"  class="form-control" name="photo" accept="image/x-png,image/jpeg" multiple />
+                    <input *ngIf="!checkingNim"  type="file" (change)="fileChangeEvent($event,1)" class="form-control" name="photo" accept="image/x-png,image/jpeg" multiple />
                     <small *ngIf="!checkingNim" [hidden]="fileValid" class="text-danger">
                         *Maximimum 3 MB &nbsp;
                         *Jpeg, jpg atau png. &nbsp;
@@ -82,14 +69,13 @@
                     </div>
                 </div><br>
                 <div  class="margin-20">
-                  <button *ngIf="!checkingNim" [hidden]="checkingNim==null" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && !fileValid" (click)="submit(); $event.preventDefault()">Submit yang</button>
+                  <button *ngIf="!checkingNim" [hidden]="checkingNim==null" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && !fileValid" (click)="submit(); $event.preventDefault()">Submit</button>
 
                   <!-- yang ga perlu file valid -->
-                  <button *ngIf="checkingNim" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && fileValid" (click)="submit(); $event.preventDefault()">Submit yang 2</button>                                    
+                  <button *ngIf="checkingNim" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid && fileValid" (click)="submit(); $event.preventDefault()">Submit</button>                                    
                 </div>         
 
               </div>
-              <!-- end of if mahasiswa sudah terdaftar -->
             </div>
           </div>
         </div>
@@ -119,8 +105,8 @@
             </thead>
 
 
-            <tbody > 
-              <tr *ngFor="let list of listPeserta; let i = index ">
+            <tbody *ngFor="let list of listPeserta; let i = index " > 
+              <tr >
                 <td>{{ i+1 }}</td>
                 <td>{{ list.mahasiswa.nama_mahasiswa }}</td>
                 <td>{{ list.mahasiswa.NIM_mahasiswa }}</td>
@@ -139,16 +125,64 @@
                 </td>
                 <td>
 <!--                   <span class="badge badge-success">Verified</span> -->
-                  <span><a href="javascript:void(0)" (click)="delete(list.id)" ><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <span><a href="javascript:void(0)" (click)="deletePeserta(list.id)" ><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a> </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                   <span><a href="javascript:void(0)" (click)="myModal.show()" ><i class="fa fa-pencil-square-o" aria-hidden="true"> Update</i></a> </span>
                 </td>
+
               </tr>
+                <!-- Modals UPDATE Mahasiwa -->
+              <div bsModal #myModal="bs-modal" [config]="{backdrop: false}" class="modal fade" style="top:50px" role="dialog" aria-labelledby="myModalLabel" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Update Informasi Mahasiswa</h4>
+                      <button type="button" class="close" (click)="myModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form [formGroup]="myFormUpdate" novalidate>
+                      <div class="modal-body">
+                        <div class="form-group col-xs-6">
+                          <label>Nama</label>
+                          <input type="text" class="form-control" formControlName="namaUpdate" value={{list.mahasiswa.nama_mahasiswa}} disabled>
+                        </div>
+                        
+                        <div class="form-group col-xs-6">
+                          <label>NIM</label>
+                          <input type="text" class="form-control" formControlName="nimUpdate" value={{list.mahasiswa.NIM_mahasiswa}} disabled="">
+                        </div>
+                        
+                        <div class="form-group col-xs-6">
+                          <label>No Hp</label>
+                          <input type="text" class="form-control" formControlName="noHpUpdate" value={{list.noHP_peserta}} pattern='^\+?\d{0,13}' >
+                          <small [hidden]="myFormUpdate.controls.noHpUpdate.valid" class="text-danger" >
+                            No hp harus valid 
+                          </small>
+                        </div>
+
+                        <div class="form-group col-xs-6">
+                          <label>Photo & photoKTM</label>        
+                          <input type="file" (change)="fileChangeEvent($event, 2)" class="form-control" name="photo" accept="image/x-png,image/jpeg" multiple />
+                          <small [hidden]="fileValidUpdate" class="text-danger">
+                              *Maximimum 3 MB &nbsp;
+                              *Jpeg, jpg atau png. &nbsp;
+                              *2 File yang harus diupload
+                          </small>
+                        </div>
+                                                
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="myModal.hide()">Close</button>
+                        <button type="button" class="btn btn-primary" (click)="updatePeserta(list)">Save changes</button>
+                      </div>
+                    </form>
+                  </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+              </div><!-- /.modal -->  
+
             </tbody>
 
-<!--             <ng-template #elseBlock >
-              <h5 style="text-align: center; color: red">*Belum ada peserta yang masuk</h5>
-            </ng-template> -->
           </table>
         </div>
       </div>
@@ -157,23 +191,3 @@
 
 </div>
 
-    <!-- Modal -->
-  <div bsModal #myModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Modal title</h4>
-          <button type="button" class="close" (click)="myModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>One fine body&hellip;</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="myModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->  

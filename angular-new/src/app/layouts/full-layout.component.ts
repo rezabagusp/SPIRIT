@@ -10,11 +10,12 @@ import { Http,Headers } from '@angular/http';
 import 'rxjs/Rx';
 //jwt helper
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
+import { PanitiaService } from '../services/panitia.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './full-layout.component.html',
-  providers: [AuthenticationService]
+  providers: [AuthenticationService, PanitiaService]
 })
 export class FullLayoutComponent implements OnInit {
 
@@ -24,23 +25,47 @@ export class FullLayoutComponent implements OnInit {
   public disabled = false;
   public status: {isopen: boolean} = {isopen: false};
   public role;
+  public roleDepan;
+  public username;
+  public participant = [];
 
   constructor(private http: Http,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               private router: Router,
-              private toastrService: ToastrService
+              private toastrService: ToastrService,
+              private panitiaService: PanitiaService
               ){
-    var user = this.jwtHelper.decodeToken(localStorage.getItem('token'))
-    if(user.status_pj)
-      this.role = "penanggungjawab";
-    else if(user.status_panitia)
-      this.role = "panitia";
-    console.log('routeactivated parent, login as')
-    console.log(this.role)
-    console.log("isi jwt helper", user);
-    console.log("expired ?", this.jwtHelper.isTokenExpired(localStorage.getItem('token')));
+  var user = this.jwtHelper.decodeToken(localStorage.getItem('token'))
+  if(user.status_pj){
+    this.role = "penanggungjawab";
+    this.roleDepan = "PJ KONTINGEN";
+    this.username = user.username_pj
+  }
 
+  else if(user.status_panitia){
+    this.role = "panitia";
+    this.roleDepan = "PANITIA";
+    this.username = user.username_panitia 
+  }
+  console.log('routeactivated parent, login as')
+  console.log(this.role)
+  console.log("isi jwt helper", user);
+  console.log("expired ?", this.jwtHelper.isTokenExpired(localStorage.getItem('token')));
+
+  }
+
+  ngOnInit(): void {
+    this.getPeserta();
+  }
+
+  public getPeserta(){
+    this.panitiaService.getPesertaBaru().subscribe(
+      data => {
+        this.participant = data;
+        console.log('Ini datanya', this.participant);
+      }
+    )
   }
 
   public toggled(open: boolean): void {
@@ -53,8 +78,7 @@ export class FullLayoutComponent implements OnInit {
     this.status.isopen = !this.status.isopen;
   }
 
-  ngOnInit(): void {
-  }
+  
 
   logout(){
     this.authenticationService.logout();

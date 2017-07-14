@@ -13,4 +13,9 @@ export class ModalsComponent {
     public warningModal;
     public dangerModal;
     public infoModal;
+
+    open(){
+    	console.log("masuk oe")
+    	document.getElementById("myModal").click();
+    }
 }

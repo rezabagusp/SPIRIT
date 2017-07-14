@@ -18,16 +18,23 @@ export class PanitiaService {
 
   //atribut for file upload
   filesToUpload: Array<File>;
-  idDepartemen;
   idLomba;
   //path request API
+<<<<<<< HEAD
+  public pathGetPeserta="http://localhost:8080/panitia/daftarPesertaBaru/";
+  public pathGetPesertaTingkatAkhir="http://localhost:8080/panitia/daftarTingkatAkhir/";
+  public pathGetPesertaVerified="http://localhost:8080/panitia/daftarPesertaVerified/";
+=======
+  public pathGetPesertaBaru="http://localhost:8000/panitia/daftarPeserta/";
+
   public pathGetPeserta="http://localhost:8000/panitia/daftarPesertaBaru/";
   public pathGetPesertaTingkatAkhir="http://localhost:8000/panitia/daftarTingkatAkhir/";
   public pathGetPesertaVerified="http://localhost:8000/panitia/daftarPesertaVerified/";
+>>>>>>> 8d34723ad6afc9f20b425eb8513e9c3ecf84cf71
 
-  public pathVerifPeserta="http://localhost:8000/panitia/verifikasi/";
-  public pathVerifTingkatAkhir="http://localhost:8000/panitia/verifikasiTingkatAkhir/";
-  public pathUnverifPeserta="http://localhost:8000/panitia/unverifikasi/";
+  public pathVerifPeserta="http://localhost:8080/panitia/verifikasi/";
+  public pathVerifTingkatAkhir="http://localhost:8080/panitia/verifikasiTingkatAkhir/";
+  public pathUnverifPeserta="http://localhost:8080/panitia/unverifikasi/";
 
 
   token:string;
@@ -37,8 +44,21 @@ export class PanitiaService {
   constructor(private http:Http) {
     this.token = localStorage.getItem('token');
     var user = this.jwtHelper.decodeToken(this.token);
-    this.idDepartemen = user.fk_departementId;
-    console.log('Id department ',  this.idDepartemen);
+ 
+  }
+
+  public getPesertaBaru(){
+
+    let header= new Headers();
+    header.append('Content-type', 'application/json' );
+    header.append('token', this.token );//put token to request API
+
+    console.log(header);
+
+    return this.http.get(this.pathGetPesertaBaru, {headers:header})
+      .map((response: Response) =>
+        response.json()
+      );
   }
 
   public getAllPesertaTingkatAkhir(){
@@ -57,7 +77,6 @@ export class PanitiaService {
   }
 
   public getAllPeserta(){
-    console.log('idDep ', this.idDepartemen);
 
     let header= new Headers();
     header.append('Content-type', 'application/json' );
@@ -74,8 +93,6 @@ export class PanitiaService {
 
 
   public getAllPesertaVerified(){
-    console.log('idDep ', this.idDepartemen);
-
     let header= new Headers();
     header.append('Content-type', 'application/json' );
     header.append('token', this.token );//put token to request API
