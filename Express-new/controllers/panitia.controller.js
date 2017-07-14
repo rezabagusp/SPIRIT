@@ -15,10 +15,42 @@ Mahasiswa.belongsTo(Departement, {foreignKey:'fk_departementId'});
 
 class Panitia {
 
+
+	daftarPeserta(data, res) {
+		Peserta.findAll({
+			where: {
+				status_peserta: null
+			},
+			attributes: ['id', 'photodiri_peserta', 'photoKTM_peserta', 'status_peserta', 'SKL_peserta'],
+			include: [{
+				model: Mahasiswa,
+				where: {
+					tingkat_mahasiswa: {
+						$lte: 4
+					}
+				},
+				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
+				include: [{
+					model: Departement,
+					attributes: ['nama_departement']
+				}]
+			},
+			{
+				model: Lomba,
+				attributes: ['nama_lomba']
+			}]
+		}).then((Peserta) => {
+			res.json(Peserta)
+		}).catch((err) => {
+			console.log(err)
+			res.json({status: false, message: "invalid query", error: err})
+		})
+	}
+
 	daftarPesertaBaru(data, res) {
 		Peserta.findAll({
 			where: {
-				status_peserta: false
+				status_peserta: null
 			},
 			attributes: ['id', 'photodiri_peserta', 'photoKTM_peserta', 'status_peserta', 'SKL_peserta'],
 			include: [{
@@ -28,7 +60,7 @@ class Panitia {
 						$lt: 4
 					}
 				},
-				attributes: ['nama_mahasiswa', 'NIM_mahasiswa'],
+				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
 				include: [{
 					model: Departement,
 					attributes: ['nama_departement']
@@ -49,7 +81,12 @@ class Panitia {
 	daftarTingkatAkhir(data, res) {
 		Peserta.findAll({
 			where: {
-				status_peserta: null
+				status_peserta:{
+					$or:{
+						$eq: null,
+						$not: true
+					}
+				}
 			},
 			attributes: ['id', 'photodiri_peserta', 'photoKTM_peserta', 'status_peserta', 'SKL_peserta'],
 			include: [
@@ -60,7 +97,7 @@ class Panitia {
 						$gte: 4
 					}
 				},
-				attributes: ['nama_mahasiswa', 'NIM_mahasiswa'],
+				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
 				include: [
 				{
 					model: Departement,
@@ -71,7 +108,10 @@ class Panitia {
 			{
 				model: Lomba,
 				attributes: ['nama_lomba']
-			}]
+			}],
+			order: [
+				['fk_mahasiswaId']
+			]
 		}).then((Peserta) => {
 			res.json(Peserta)
 		}).catch((err) => {
@@ -94,7 +134,7 @@ class Panitia {
 						$lte: 4
 					}
 				},
-				attributes: ['nama_mahasiswa', 'NIM_mahasiswa'],
+				attributes: ['id','nama_mahasiswa', 'NIM_mahasiswa'],
 				include: [{
 					model: Departement,
 					attributes: ['nama_departement']
@@ -111,7 +151,7 @@ class Panitia {
 			res.json({status: false, message: "invalid query", error: err})
 		})
 	}
-
+	/*verifikasi biasa*/
 	verifikasi(data, res) {
 		res.json(1);
 		Peserta.update({
@@ -119,10 +159,11 @@ class Panitia {
 			SKL_peserta: true		
 		},{
 			where: {
-				id: data.params.id
+				fk_mahasiswaId: data.params.id
 			}
 		})
 	}
+	/*verifikasi TA*/
 	verifikasiTingkatAkhir(data,res){
 		res.json(1);
 		Peserta.update({
@@ -141,7 +182,7 @@ class Panitia {
 			SKL_peserta: false		
 		},{
 			where: {
-				id: data.params.id
+				fk_mahasiswaId: data.params.id
 			}
 		})
 	}

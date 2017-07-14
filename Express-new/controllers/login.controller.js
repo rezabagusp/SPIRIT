@@ -19,7 +19,7 @@ class Login{
 	}
 	/*fungsi hashing password*/
 	setPassword(data){
-		this.password = crypto.createHash('md5').update(data).digest('hex');
+		this.password = data /*crypto.createHash('md5').update(data).digest('hex')*/;
 	}
 	login(data, res){
 		this.username = data.username;
@@ -126,10 +126,11 @@ class Login{
 				username_pj: this.username
 			}
 		}).then(()=> {
+			console("masuk update pass pj")
 			res.json({status: true, message:"Success reset your password!"});
 		}).catch((err)=>{
 			panitia.update({
-				password_pj: this.password
+				password_panitia: this.password
 			},{
 				where: {
 					username_panitia: this.username

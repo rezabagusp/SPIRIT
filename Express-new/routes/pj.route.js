@@ -3,6 +3,10 @@ var express = require('express'),
 	pj = require('../controllers/penanggungjawab.controller'),
 	user = new pj;
 
+router.post('/checkmahasiswa/:iddept', function(req, res, next) {
+	console.log("masuk")
+	user.checkmahasiswa(req, res);
+});
 router.post('/daftarpeserta', function(req, res, next){
 	user.daftarpeserta(req, res);
 });
